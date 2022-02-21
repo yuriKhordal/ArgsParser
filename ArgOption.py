@@ -36,7 +36,7 @@ class ArgOption:
     """The amount of values required by the argument."""
     return self.__require
 
-  def setShort(self, short: str) -> ArgOption:
+  def setShort(self, short: str) -> "ArgOption":
     """Set the short version of the option."""
     if not isinstance(short, str):
       raise TypeError(short)
@@ -46,15 +46,15 @@ class ArgOption:
     self.__short = short
     return self
 
-  def setLong(self, long: str) -> ArgOption:
+  def setLong(self, long: str) -> "ArgOption":
     """Set the long version of the option."""
     if not isinstance(long, str):
       raise TypeError(long)
     self.__long = long
     return self
 
-  def setValuesRequired(self, required: ArgValsEnum) -> ArgOption:
-    """."""
+  def setValuesRequired(self, required: ArgValsEnum) -> "ArgOption":
+    """Set the amount of values required by the argument."""
     if not isinstance(required, ArgValsEnum):
       raise TypeError(required)
     self.__require = required
