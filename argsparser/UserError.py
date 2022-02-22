@@ -1,4 +1,4 @@
-class UserError:
+class UserError(BaseException):
   """Represents an error in the input of a command."""
 
   def __init__(self, message: str) -> None:
@@ -15,16 +15,25 @@ class UserError:
   def wrongArgNumber() -> "UserError":
     """Generate a user error about an incorrect number of arguments."""
     return UserError("Wrong number of arguments.")
+
+  @staticmethod
+  def argsRequired(opt: str) -> "UserError":
+    """
+    Generate a user error about a lack of arguments.
+
+    param `opt`: The option that requires arguments.
+    """
+    return UserError(f"Option `--{opt}` requires arguments.")
   
   @staticmethod
   def unknownSOpt(opt: str) -> "UserError":
     """Generate a user error about an unknown short option."""
-    return UserError(f"Unknown option -{opt}.")
+    return UserError(f"Unknown option `-{opt}`.")
   
   @staticmethod
   def unknownLOpt(opt: str) -> "UserError":
     """Generate a user error about an unknown long option."""
-    return UserError(f"Unknown option --{opt}.")
+    return UserError(f"Unknown option `--{opt}`.")
   
   @staticmethod
   def argOptMiddle(opt: str, arg: str) -> "UserError":
@@ -38,5 +47,5 @@ class UserError:
 
     In the above example 'f' would be `opt` and 'dfh' would be `arg`.
     """
-    return UserError(f"Option -{opt} requires arguments," + \
-      f"but is in the middle of the options: {arg}.")
+    return UserError(f"Option `-{opt}` requires arguments," + \
+      f"but is in the middle of the options: `{arg}`.")

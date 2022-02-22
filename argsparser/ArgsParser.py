@@ -1,7 +1,5 @@
 from typing import Tuple
-from ArgOption import ArgFlag, ArgOption
-from ArgValsEnum import ArgValsEnum
-from UserError import UserError
+from . import ArgFlag, ArgOption, ArgValsEnum, UserError
 
 class ArgsParser:
   """Represents a parser of command line arguments."""
@@ -64,7 +62,7 @@ class ArgsParser:
     """
     arg = args[i]
     letter = arg[shorti]
-    opt = ArgOption #None
+    opt = None
 
     for option in self.__options:
       if option.short == letter:
@@ -91,14 +89,17 @@ class ArgsParser:
     optArgs = opts[opt.long] if opt.long in opts else []
 
     if opt.valuesRequired == ArgValsEnum.ONE:
-      if i >= len(args) or len(optArgs) >= 1 or args[i].startswith("-"):
-        raise UserError.wrongArgNumber()
+      if i >= len(args) or args[i].startswith("-"):
+        raise UserError.argsRequired(opt.long)
+      if len(optArgs) >= 1:
+        raise UserError(f"Option `--{opt.long}` only requires ONE argument.")
       optArgs.append(args[i])
       i += 1
     elif opt.valuesRequired == ArgValsEnum.MANY:
       while not args[i].startswith("-"):
         optArgs.append(args[i])
         i += 1
+      if len(optArgs) == 0: raise UserError.argsRequired(opt.long)
     
     opts[opt.long] = optArgs
     return i

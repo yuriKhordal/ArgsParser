@@ -1,4 +1,4 @@
-from ArgValsEnum import ArgValsEnum
+from . import ArgValsEnum
 
 class ArgOption:
   """Represents a command line option/flag."""
